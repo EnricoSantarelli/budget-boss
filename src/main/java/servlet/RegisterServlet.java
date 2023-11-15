@@ -32,6 +32,7 @@ public class RegisterServlet extends HttpServlet {
         bo = new EmailBO();
         
     }
+
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nome = request.getParameter("nome");
@@ -49,7 +50,7 @@ public class RegisterServlet extends HttpServlet {
 			
 			String mensagem = "Seu usuario foi registrado";
 			request.setAttribute("mensagem", mensagem);
-			request.getRequestDispatcher("register.jsp").forward(request, response);
+			
 				try {
 					bo.enviarEmail(email, "Usuario registrado", mensagem);
 				} catch (EmailException e) {
@@ -58,11 +59,12 @@ public class RegisterServlet extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
+			System.out.println("erro");
 			request.setAttribute("erro", e.getMessage());
-			request.getRequestDispatcher("register.jsp").forward(request, response);
 			e.printStackTrace();
 		}
 		
+		request.getRequestDispatcher("register.jsp").forward(request, response);
 	}
 
 }
